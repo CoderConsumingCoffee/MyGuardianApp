@@ -1,0 +1,103 @@
+package com.aphart.myguardian;
+
+import android.content.ContentValues;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
+
+import myguardianDB.DBContract;
+import myguardianDB.*;
+import myguardianDB.GuardianContentProvider;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+
+
+
+//        new DBHelper(this).getWritableDatabase();
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    Uri uri;
+                    uri = getContentResolver().insert(
+                            GuardianContentProvider.GOVERNMENT,
+                            DBContract.Government.generateGovernmentTableValues(
+                                    "Food Stamps",
+                                    "Income of x - y",
+                                    "License",
+                                    false,
+                                    false,
+                                    "card that gives money for food",
+                                    "401-284-8821",
+                                    "414-288-1999",
+                                    "man@gmail.com",
+                                    "fackman@gmail.com",
+                                    "www.google.com",
+                                    "1880 Thistle Drive Portland Oregon 97202",
+                                    "Closed",
+                                    "8am - 5pm",
+                                    "8am - 5pm",
+                                    "8am - 5pm",
+                                    "8am - 5pm",
+                                    "8am - 5pm",
+                                    "Closed",
+                                    "Any Gender"
+                            ));
+                    Toast.makeText(getBaseContext(),
+                            uri.toString(), Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.e(e.getClass().toString(),e.getCause().toString());
+
+
+                }
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+
+
+
+
+
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+}

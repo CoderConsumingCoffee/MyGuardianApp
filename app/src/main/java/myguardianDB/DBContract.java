@@ -2,7 +2,6 @@ package myguardianDB;
 
 import android.content.ContentValues;
 import android.provider.BaseColumns;
-import android.renderscript.Sampler;
 //import android.support.design.widget.TabLayout;
 
 /**
@@ -159,7 +158,7 @@ public abstract class DBContract {
         public static final String RESUME_WRITING = "resumewriting";
         public static final String QUALIFIERS = "qualifiers";
         public static final String INTERVIEW_SKILLS = "interviewskills";
-        public static final String JOB_TRAINIING = "jobtraining";
+        public static final String JOB_TRAINING = "jobtraining";
         public static final String EMPLOYMENT_SERVICES = "employmentservices";
         public static final String JOB_PLACEMENT = "jobplacement" ;
         public static final String GENDER_RESTRICTION = "genderrestriction";
@@ -181,7 +180,7 @@ public abstract class DBContract {
             values.put(RESUME_WRITING, ResumeWriting);
             values.put(QUALIFIERS, Qualifiers);
             values.put(INTERVIEW_SKILLS , InterviewSkills);
-            values.put(JOB_TRAINIING, JobTrainingOffered);
+            values.put(JOB_TRAINING, JobTrainingOffered);
             values.put(EMPLOYMENT_SERVICES, EmploymentServices);
             values.put(JOB_PLACEMENT, JobPlacement);
             values.put(GENDER_RESTRICTION, GenderRestriction);
@@ -195,7 +194,7 @@ public abstract class DBContract {
     public static final class PhysicalHealth implements BaseColumns{
         public static final String PHYSICAL_HEALTH_TABLE_NAME = "physicalhealthid";
         public static final String MEDICAL_TESTING_DESCRIPTION = "medicaltestingdescription";
-        public static final String DISEASE_MANAFGMENT = "diseasemanagement";
+        public static final String DISEASE_MANAGMENT = "diseasemanagement";
         public static final String MEDICAL_TESTING = "medicaltesting";
         public static final String DISEASE_MANAGEMENT_DESCRIPTION = "diseasemanagementdescription";
         public static final String FREE = "free";
@@ -230,7 +229,7 @@ public abstract class DBContract {
             ContentValues values = new ContentValues();
             values.put(MEDICAL_TESTING, MedicalTesting);
             values.put(MEDICAL_TESTING_DESCRIPTION, MedicalTestingDecription);
-            values.put(DISEASE_MANAFGMENT, DiseaseMgmt);
+            values.put(DISEASE_MANAGMENT, DiseaseMgmt);
             values.put(DISEASE_MANAGEMENT_DESCRIPTION, DiseaseMgmtDescription);
             values.put(FREE, Free);
             values.put(STD_CARE, StdCare);
@@ -301,6 +300,7 @@ public abstract class DBContract {
         public static final String ABUSE_COUNSELING = "abusecounseling";
         public static final String FREE = "free";
         public static final String ORG_ID = "orgid";
+        public static final String ACCEPTS_MEDICADE = "acceptsmedicade";
         public static final String GENDER_RESTRICTION = "genderrestriction";
 
         public ContentValues generateMentalHealth (
@@ -312,6 +312,7 @@ public abstract class DBContract {
                 boolean AngerManagment,
                 boolean AbuseCounseling,
                 boolean Free,
+                boolean AcceptsMedicaid,
                 String GenderRestriction,
                 int OrgId
         ) {
@@ -326,6 +327,7 @@ public abstract class DBContract {
             values.put(ANGER_MANAGMENT, AngerManagment);
             values.put(ABUSE_COUNSELING, AbuseCounseling);
             values.put(FREE, Free);
+            values.put(ACCEPTS_MEDICADE, AcceptsMedicaid);
             values.put(GENDER_RESTRICTION, GenderRestriction);
             values.put(ORG_ID, OrgId);
 
@@ -577,7 +579,7 @@ public static final String CREATE_FOOD_TABLE =
                     + JobTraining.RESUME_WRITING + BOOLEAN_TYPE + COMMA
                     + JobTraining.QUALIFIERS + TEXT_TYPE + COMMA
                     + JobTraining.INTERVIEW_SKILLS + BOOLEAN_TYPE + COMMA
-                    + JobTraining.JOB_TRAINIING + BOOLEAN_TYPE + COMMA
+                    + JobTraining.JOB_TRAINING + BOOLEAN_TYPE + COMMA
                     + JobTraining.EMPLOYMENT_SERVICES + BOOLEAN_TYPE + COMMA
                     + JobTraining.JOB_PLACEMENT + BOOLEAN_TYPE + COMMA
                     + JobTraining.GENDER_RESTRICTION + TEXT_TYPE + COMMA
@@ -591,7 +593,7 @@ public static final String CREATE_FOOD_TABLE =
                     + PhysicalHealth._ID + INT_TYPE + " NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE" + COMMA
                     + PhysicalHealth.MEDICAL_TESTING + BOOLEAN_TYPE  + COMMA
                     + PhysicalHealth.MEDICAL_TESTING_DESCRIPTION + TEXT_TYPE + COMMA
-                    + PhysicalHealth.DISEASE_MANAFGMENT + BOOLEAN_TYPE + COMMA
+                    + PhysicalHealth.DISEASE_MANAGMENT + BOOLEAN_TYPE + COMMA
                     + PhysicalHealth.DISEASE_MANAGEMENT_DESCRIPTION + TEXT_TYPE + COMMA
                     + PhysicalHealth.FREE + BOOLEAN_TYPE + COMMA
                     + PhysicalHealth.STD_CARE + BOOLEAN_TYPE + COMMA
@@ -634,6 +636,7 @@ public static final String CREATE_FOOD_TABLE =
                     + MentalHealth.ANGER_MANAGMENT  + BOOLEAN_TYPE + COMMA
                     + MentalHealth.ABUSE_COUNSELING + BOOLEAN_TYPE + COMMA
                     + MentalHealth.FREE + BOOLEAN_TYPE + COMMA
+                    + MentalHealth.ACCEPTS_MEDICADE + BOOLEAN_TYPE + COMMA
                     + MentalHealth.GENDER_RESTRICTION + TEXT_TYPE + COMMA
                     + MentalHealth.ORG_ID + INT_TYPE + COMMA
                     + "FOREIGN KEY(" + MentalHealth.ORG_ID +") " + "REFERENCES " + Organization.TABLE_NAME+"(" + Organization._ID +")"

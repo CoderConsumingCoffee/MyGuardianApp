@@ -1,4 +1,4 @@
-package com.aphart.myguardian;
+package layout;
 
 import android.net.Uri;
 import android.support.v4.app.Fragment;
@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import com.aphart.myguardian.R;
 
 import myguardianDB.DBContract;
 import myguardianDB.GuardianContentProvider;

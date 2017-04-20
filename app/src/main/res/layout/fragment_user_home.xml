@@ -4,11 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="com.aphart.myguardian.MainActivity">
-
-    <include layout="@layout/fragment_signin"/>
-
+    tools:context="com.aphart.myguardian.layout.UserHomeActivityFragment"
+    tools:showIn="@layout/activity_user_home">
 
 
 </RelativeLayout>

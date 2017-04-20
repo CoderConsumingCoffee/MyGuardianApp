@@ -1,0 +1,134 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.aphart.myguardian.initialSignIn.PersonalInfoOneFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentStart="true">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/personalInfoOneHeader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/personal_info_one_header"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="123dp"
+        android:layout_marginTop="161dp"
+        android:id="@+id/radioGroup">
+
+        <TextView
+            android:id="@+id/pio_housingStatusHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/housing_status_header"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:id="@+id/pio_homeless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/radioGroup"
+            android:layout_below="@+id/radioGroup"
+            android:layout_marginStart="31dp"
+            android:layout_marginTop="1dp"
+            android:layout_weight="1"
+            android:text="Homeless" />
+        <RadioButton
+            android:id="@+id/pio_unstableHousing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/radioGroup"
+            android:layout_below="@+id/radioGroup"
+            android:layout_marginStart="31dp"
+            android:layout_marginTop="1dp"
+            android:layout_weight="1"
+            android:text="Unstable Housing" />
+        <RadioButton
+            android:id="@+id/pio_rentalOrMortgage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/radioGroup"
+            android:layout_below="@+id/radioGroup"
+            android:layout_marginStart="31dp"
+            android:layout_marginTop="1dp"
+            android:layout_weight="1"
+            android:text="Renting/Mortgage" />
+        <RadioButton
+            android:id="@+id/pio_shelter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/radioGroup"
+            android:layout_below="@+id/radioGroup"
+            android:layout_marginStart="31dp"
+            android:layout_marginTop="1dp"
+            android:layout_weight="1"
+            android:text="Shelter/Rehab/Halfway House" />
+        <RadioButton
+            android:id="@+id/pio_abusive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/radioGroup"
+            android:layout_below="@+id/radioGroup"
+            android:layout_marginStart="31dp"
+            android:layout_marginTop="1dp"
+
+            android:layout_weight="1"
+            android:text="Abusive" />
+    </RadioGroup>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/radioGroup"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="88dp">
+
+        <TextView
+            android:id="@+id/dateOfBirthHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/date_birth_header"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/birthDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dateOfBirthHeader"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="12dp"
+            android:ems="10"
+            android:focusable="false"
+            android:hint="@string/date_hint"
+            android:inputType="date"
+            android:textAlignment="center" />
+
+    </RelativeLayout>
+</RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

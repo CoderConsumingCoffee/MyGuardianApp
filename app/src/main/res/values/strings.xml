@@ -1,7 +1,69 @@
 <resources>
     <string name="app_name">MyGuardian</string>
     <string name="action_settings">Settings</string>
+    <string name="place_holder">Place Holder</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_user_home">UserHomeActivity</string>
+    <string name="title_activity_initial_sign_in">InitialSignInActivity</string>
+    <string name="initial_so_greeting">Welcome to MyGuardian. To get started with matching you up with the help you need tell us a little bit about yourself.</string>
+
+
+    <!-- Contact Information Fragment String Resources -->
+    <string name="ci_contactHeader">In the event we need to contact you, what\'s the best number and email?</string>
+    <string name="ci_contactHeader2">Which of these is your prefered contact method?</string>
+
+    <!--Generic Widget String Resources -->
+
+    <string name="prev_btn">Previous</string>
+    <string name="next_btn">Next</string>
+    <string name="date_hint">MM/DD/YYYY</string>
+
+    <!-- Personal Information One Fragment String Resources-->
+
+    <string name="pio_personal_info_one_header">No let\'s get personal. This will be used to help insure we can match you with the services you need.</string>
+    <string name="pio_date_birth_header">What\'s your birthdate?</string>
+    <string name="pio_housing_status_header">What is your housing status?</string>
+    <string name="pio_educationLevelHeader">What is your highest education level?</string>
+    <string name="pio_employmentStatusHeader">What is your current empolyment status?</string>
+    <string name="pio_numberOfChildrenHeader">How many kids do you have?</string>
+    <string name="pit_first_header">These more personal questions are valuable for matching you to the aid you deserve.</string>
+    <string name="pit_is_physical_health">Do you need any help with physical health?</string>
+    <string name="pit_is_mental_health">Do you need any help with mental health?</string>
+    <string name="pit_is_addicted">Do you need any help with addiction?</string>
+    <string name="pit_is_pregnant">Are you currently/possibly pregnant?</string>
+    <string-array name="job_status">
+        <item>Job Status</item>
+        <item>Unemployed</item>
+        <item>Part-time</item>
+        <item>Full-time</item>
+    </string-array>
+    <string-array name="education_status">
+        <item>Education Status</item>
+        <item>Some High School</item>
+        <item>High School Degree/GED</item>
+        <item>Some College</item>
+        <item>License or Certificate</item>
+        <item>Trade School</item>
+        <item>Associates Degree</item>
+        <item>Bachelors Degree</item>
+        <item>Graduate Degree</item>
+    </string-array>
+    <integer-array name="number_of_children">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </integer-array>
+    <!-- Personal Information Two Fragment String Resources  -->
+
+
 </resources>

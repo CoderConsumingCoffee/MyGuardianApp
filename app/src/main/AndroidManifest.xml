@@ -11,18 +11,37 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme"
+         >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <provider
-            android:authorities ="myguardianDB.GuardianContentProvider"
-            android:name="myguardianDB.GuardianContentProvider"
-             />
 
+        <provider
+            android:name="myguardianDB.GuardianContentProvider"
+            android:authorities="myguardianDB.GuardianContentProvider" />
+
+        <activity
+            android:name=".UserHomeActivity"
+            android:label="@string/title_activity_user_home"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.aphart.myguardian.MainActivity" />
+        </activity>
+        <activity
+            android:name=".InitialSignInActivity"
+            android:label="@string/title_activity_initial_sign_in"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.aphart.myguardian.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

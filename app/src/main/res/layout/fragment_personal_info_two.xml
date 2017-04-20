@@ -1,0 +1,99 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.aphart.myguardian.initialSignIn.PersonalInfoTwoFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/scrollView2">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/pit_firstHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/pit_first_header"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <CheckBox
+            android:id="@+id/pit_mentalHealthCheckbox"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/button_height"
+            android:layout_below="@+id/pit_firstHeader"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:text="@string/pit_is_mental_health"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <CheckBox
+            android:id="@+id/pit_physicalHealthCheckbox"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/button_height"
+            android:layout_below="@+id/pit_mentalHealthCheckbox"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:text="@string/pit_is_physical_health"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <CheckBox
+            android:id="@+id/pit_addictionCheckbox"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/button_height"
+            android:layout_below="@+id/pit_physicalHealthCheckbox"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:text="@string/pit_is_addicted"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <CheckBox
+            android:id="@+id/pit_pregnantCheckbox"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/button_height"
+            android:layout_below="@+id/pit_addictionCheckbox"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:text="@string/pit_is_pregnant"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="visible" />
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/pit_pregnantCheckbox"
+    android:layout_margin="@dimen/activity_horizontal_margin">
+
+    <Button
+        android:id="@+id/pit_prev"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:height="@dimen/button_height"
+        android:text="@string/prev_btn"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/pit_nextBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:height="@dimen/button_height"
+        android:text="@string/next_btn"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+</RelativeLayout>
+</RelativeLayout>
+</ScrollView>
+
+</RelativeLayout>

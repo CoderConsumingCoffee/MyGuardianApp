@@ -1,16 +1,12 @@
 package com.aphart.myguardian;
 
 import android.app.Dialog;
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -31,12 +27,6 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-
-import layout.LoggedOnFragment;
-import myguardianDB.DBContract;
-import myguardianDB.*;
-import myguardianDB.GuardianContentProvider;
-
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private boolean mResolvingError = false;
@@ -48,13 +38,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     GoogleApiClient mGoogleApiClient;
     private static final int RC_SIGN_IN = 9001;
     private static final String TAG = "SignInActivity";
+    private static boolean isRegistered = false; //holds whether user is registered. If false, launch activity.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         mResolvingError = savedInstanceState != null
                 && savedInstanceState.getBoolean(STATE_RESOLVING_ERROR, false);
@@ -96,27 +85,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -194,6 +165,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
+
     }
 
     @Override
@@ -223,11 +195,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     private void updateUI(boolean b) {
         if (b) {
-            FragmentManager fm = getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.add(0, LoggedOnFragment.newInstance("", ""));
-            ft.commit();
-            Toast.makeText(this, "Updating UI", Toast.LENGTH_LONG).show();
+            if (isRegistered) {
+                //launch main page activity
+                Intent intent = new Intent(this, UserHomeActivity.class);
+                startActivity(intent);
+            }
+            else{
+                //Launch registration activity.
+                Intent intent = new Intent(this, InitialSignInActivity.class);
+                startActivity(intent);
+            }
         }
     }
 }

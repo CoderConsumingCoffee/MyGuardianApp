@@ -4,20 +4,18 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Toast;
 
+import com.aphart.myguardian.Exceptions.CallingClassNotCompatable;
+import com.aphart.myguardian.dataAccessObjects.NewUserTableDAO;
+import com.aphart.myguardian.interfaces.UpdateUIOnDAOComplete;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -27,7 +25,10 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+import myguardianDB.DBContract;
+import myguardianDB.GuardianContentProvider;
+
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, UpdateUIOnDAOComplete {
 
     private boolean mResolvingError = false;
     // Request code to use when launching the resolution activity
@@ -39,10 +40,19 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private static final int RC_SIGN_IN = 9001;
     private static final String TAG = "SignInActivity";
     private static boolean isRegistered = false; //holds whether user is registered. If false, launch activity.
+    private boolean isNewUserHasReturned = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //set up whether the user has answered the initial questions
+        try {
+            NewUserTableDAO.getInstance().queryIsNewUser(this);
+        } catch (CallingClassNotCompatable callingClassNotCompatable) {
+            callingClassNotCompatable.printStackTrace();
+        }
+
         setContentView(R.layout.activity_main);
 
         mResolvingError = savedInstanceState != null
@@ -87,7 +97,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
 
 
+@Override
+    protected  void onResume(){
+    super.onResume();
 
+}
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -143,6 +157,20 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         mResolvingError = false;
     }
 
+    @Override
+    public void performQueryAction(Cursor cursors) {
+        if (!cursors.isClosed() && cursors.moveToFirst()){
+            if (cursors.getInt(cursors.getColumnIndex(DBContract.NewUser.IS_NEW_USER)) == 0){
+                isRegistered = false;
+            }else{
+                isRegistered = true;
+            }
+        }
+        isNewUserHasReturned = true;
+        cursors.close();
+        GuardianContentProvider.closeDBConnection();
+    }
+
     public static class ErrorDialogFragment extends DialogFragment {
         public ErrorDialogFragment() {
         }
@@ -194,6 +222,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     private void updateUI(boolean b) {
+        while (isNewUserHasReturned == false){
+            //insert waiting action
+        }
         if (b) {
             if (isRegistered) {
                 //launch main page activity

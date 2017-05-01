@@ -439,6 +439,18 @@ public abstract class DBContract {
         }
     }
 
+    public static final class NewUser implements BaseColumns{
+        public static final String NEW_USER_TABLE ="newuser";
+        public static final String IS_NEW_USER ="isnewuser";
+    }
+    public ContentValues generateNewUserTable(
+            boolean isNewUser
+    ){
+        ContentValues cv = new ContentValues();
+        cv.put(NewUser.IS_NEW_USER, isNewUser);
+        return cv;
+    }
+
     public static final class UserInfo implements BaseColumns{
         public static final String USER_INFO_TABLE = "userinfo";
         public static final String GENDER = "gender";
@@ -516,6 +528,13 @@ public abstract class DBContract {
 
     //Constants class to be filled.
     // public static final class X implements BaseColumns{    }
+    public static final String CREATE_NEW_USER_TABLE=
+            "CREATE TABLE "
+                    + NewUser.NEW_USER_TABLE
+                    + " ("
+                    +NewUser._ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE" + COMMA
+                    +NewUser.IS_NEW_USER + BOOLEAN_TYPE
+                    + " )";
 
     public static final String CREATE_ORGANIZATION_TABLE =
             "CREATE TABLE "

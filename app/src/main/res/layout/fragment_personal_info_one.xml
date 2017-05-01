@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.aphart.myguardian.initialSignIn.PersonalInfoOneFragment">
+    tools:context=".fragmentClasses.initialSignIn.PersonalInfoOneFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -157,7 +157,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="28sp"
             android:entries="@array/number_of_children"
-            android:prompt="How many children do you have?"
+
             android:spinnerMode="dialog"
             android:textAlignment="center" />
 
@@ -188,7 +188,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="28sp"
             android:entries="@array/job_status"
-            android:prompt="What is your employment level?"
+
             android:spinnerMode="dialog"
             android:textAlignment="center" />
     </RelativeLayout>
@@ -218,7 +218,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="28sp"
             android:entries="@array/education_status"
-            android:prompt="Select your highest education"
+            android:prompt="@string/pio_spinner_education_prompt"
             android:spinnerMode="dialog"
             android:textAlignment="center" />
 

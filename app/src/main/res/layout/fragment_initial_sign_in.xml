@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".initialSignIn.InitialSignInActivityBeginFragment"
+    tools:context=".fragmentClasses.initialSignIn.InitialSignInActivityBeginFragment"
 
     >
 
@@ -37,7 +37,7 @@
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/amMan"
+                android:id="@+id/isi_amMan"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_height"
                 android:layout_below="@+id/initialSignInGreeting"
@@ -49,10 +49,10 @@
 
 
             <Button
-                android:id="@+id/amWoman"
+                android:id="@+id/isi_amWoman"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_height"
-                android:layout_below="@+id/amMan"
+                android:layout_below="@+id/isi_amMan"
                 android:layout_margin="18sp"
                 android:text="I identify as a woman"
                 android:textAlignment="center"
@@ -60,10 +60,10 @@
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/amNonGendered"
+                android:id="@+id/isi_amNonGendered"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/button_height"
-                android:layout_below="@+id/amWoman"
+                android:layout_below="@+id/isi_amWoman"
                 android:layout_margin="18sp"
                 android:text="I Identify as non-gendered"
                 android:textAlignment="center"

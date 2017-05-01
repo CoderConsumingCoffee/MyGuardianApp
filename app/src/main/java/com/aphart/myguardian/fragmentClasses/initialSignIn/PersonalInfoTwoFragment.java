@@ -1,6 +1,7 @@
-package com.aphart.myguardian.initialSignIn;
+package com.aphart.myguardian.fragmentClasses.initialSignIn;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,28 +10,27 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.aphart.myguardian.R;
+import com.aphart.myguardian.interfaces.DataAccessObject;
+import com.aphart.myguardian.interfaces.UpdateUIOnDAOComplete;
+
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ContactInfoFragment.OnFragmentInteractionListener} interface
+ * {@link PersonalInfoTwoFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ContactInfoFragment#newInstance} factory method to
+ * Use the {@link PersonalInfoTwoFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ContactInfoFragment extends Fragment {
+public class PersonalInfoTwoFragment extends Fragment implements UpdateUIOnDAOComplete{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
+    private static Bundle userInfoBundle;
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
-    public ContactInfoFragment() {
+    public PersonalInfoTwoFragment() {
         // Required empty public constructor
     }
 
@@ -40,11 +40,11 @@ public class ContactInfoFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ContactInfoFragment.
+     * @return A new instance of fragment PersonalInfoTwoFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ContactInfoFragment newInstance(String param1, String param2) {
-        ContactInfoFragment fragment = new ContactInfoFragment();
+    public static PersonalInfoTwoFragment newInstance(String param1, String param2) {
+        PersonalInfoTwoFragment fragment = new PersonalInfoTwoFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -65,7 +65,7 @@ public class ContactInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_contact_info, container, false);
+        return inflater.inflate(R.layout.fragment_personal_info_two, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -90,6 +90,26 @@ public class ContactInfoFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void performUIQueryAction(DataAccessObject dao, Cursor cursor) {
+
+    }
+
+    @Override
+    public void performUIInsertAction(DataAccessObject dao, Uri uri) {
+
+    }
+
+    @Override
+    public void performUIUpdateAction(DataAccessObject dao, int rowsModified) {
+
+    }
+
+    @Override
+    public void performUIDeleteAction(DataAccessObject dao, int rowsModified) {
+
     }
 
     /**

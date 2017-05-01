@@ -28,6 +28,9 @@
     <string name="pio_educationLevelHeader">What is your highest education level?</string>
     <string name="pio_employmentStatusHeader">What is your current empolyment status?</string>
     <string name="pio_numberOfChildrenHeader">How many kids do you have?</string>
+    <string name="pio_spinner_children_promt">How many children do you have?</string>
+    <string name="pio_spinner_education_prompt">Select your highest education.</string>
+    <string name="pio_spinner_jobstatus_prompt">What is your employment level?</string>
     <string name="pit_first_header">These more personal questions are valuable for matching you to the aid you deserve.</string>
     <string name="pit_is_physical_health">Do you need any help with physical health?</string>
     <string name="pit_is_mental_health">Do you need any help with mental health?</string>

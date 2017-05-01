@@ -11,7 +11,7 @@ import android.util.Log;
  */
 
 public class DBHelper extends SQLiteOpenHelper {
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 3;
     public static final String DATABASE_NAME = "myguardianreasources";
     public DBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -32,6 +32,7 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + DBContract.UtilityRentEviction.UTILITY_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + DBContract.Government.GOVERNMENT_TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + DBContract.UserInfo.USER_INFO_TABLE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + DBContract.NewUser.NEW_USER_TABLE);
 
         sqLiteDatabase.execSQL(DBContract.CREATE_ORGANIZATION_TABLE);
         sqLiteDatabase.execSQL(DBContract.CREATE_HOUSING_TABLE);
@@ -43,6 +44,7 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(DBContract.CREATE_UTILITY_TABLE);
         sqLiteDatabase.execSQL(DBContract.CREATE_GOVERNMENT_TABLE);
         sqLiteDatabase.execSQL(DBContract.CREATE_USER_INFO_TABLE);
+        sqLiteDatabase.execSQL(DBContract.CREATE_NEW_USER_TABLE);
 
         Log.e("DB CREATION", "Database was created successfully");
     }

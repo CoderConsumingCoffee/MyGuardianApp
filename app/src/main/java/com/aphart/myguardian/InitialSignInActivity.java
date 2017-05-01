@@ -9,9 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.aphart.myguardian.initialSignIn.InitialSignInActivityBeginFragment;
+import com.aphart.myguardian.fragmentClasses.initialSignIn.InitialSignInActivityBeginFragment;
 
 public class InitialSignInActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,5 +35,6 @@ public class InitialSignInActivity extends AppCompatActivity {
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+
 
 }

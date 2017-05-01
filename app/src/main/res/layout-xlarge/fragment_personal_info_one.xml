@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.aphart.myguardian.initialSignIn.PersonalInfoOneFragment">
+    tools:context=".fragmentClasses.initialSignIn.PersonalInfoOneFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -19,7 +19,7 @@
         android:id="@+id/personalInfoOneHeader"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/personal_info_one_header"
+        android:text="@string/pio_personal_info_one_header"
         android:textAlignment="center"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -39,7 +39,7 @@
             android:id="@+id/pio_housingStatusHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/housing_status_header"
+            android:text="@string/pio_housing_status_header"
             android:textAlignment="center"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -109,7 +109,7 @@
             android:id="@+id/dateOfBirthHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/date_birth_header"
+            android:text="@string/pio_date_birth_header"
             android:textAlignment="center"
             android:textSize="18sp"
             android:textStyle="bold" />

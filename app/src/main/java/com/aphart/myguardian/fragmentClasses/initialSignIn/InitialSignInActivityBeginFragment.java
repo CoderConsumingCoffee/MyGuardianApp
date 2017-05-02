@@ -36,9 +36,6 @@ public class InitialSignInActivityBeginFragment extends Fragment implements View
     private static int genderId;
     private static Bundle userInfoBundle;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private ContactInfoFragment.OnFragmentInteractionListener mListener;
 
@@ -67,7 +64,10 @@ public class InitialSignInActivityBeginFragment extends Fragment implements View
 
         }
         if(savedInstanceState != null){
-            genderId = savedInstanceState.getInt(DBContract.UserInfo.GENDER);
+            if(userInfoBundle == null) {
+                userInfoBundle = savedInstanceState.getBundle("INITIAL_SIGN_IN");
+            }
+            genderId = userInfoBundle.getInt(DBContract.UserInfo.GENDER);
 
         }
     }
@@ -112,8 +112,9 @@ public class InitialSignInActivityBeginFragment extends Fragment implements View
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(DBContract.UserInfo.GENDER, genderId);
+
         userInfoBundle.putInt(DBContract.UserInfo.GENDER, genderId);
+        outState.putBundle("INITIAL_SIGN_IN", userInfoBundle);
     }
 
 

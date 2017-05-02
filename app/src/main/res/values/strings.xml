@@ -22,7 +22,7 @@
 
     <!-- Personal Information One Fragment String Resources-->
 
-    <string name="pio_personal_info_one_header">No let\'s get personal. This will be used to help insure we can match you with the services you need.</string>
+    <string name="pio_personal_info_one_header">Now let\'s get personal. This will be used to help insure we can match you with the services you need.</string>
     <string name="pio_date_birth_header">What\'s your birthdate?</string>
     <string name="pio_housing_status_header">What is your housing status?</string>
     <string name="pio_educationLevelHeader">What is your highest education level?</string>

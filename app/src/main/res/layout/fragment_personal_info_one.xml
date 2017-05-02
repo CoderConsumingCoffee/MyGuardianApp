@@ -30,7 +30,7 @@
     <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/radioGroup"
+        android:id="@+id/pio_radioGroup"
         android:layout_marginTop="24dp"
         android:layout_below="@+id/relativeLayout"
         android:layout_centerHorizontal="true">
@@ -48,8 +48,8 @@
             android:id="@+id/pio_homeless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/radioGroup"
-            android:layout_below="@+id/radioGroup"
+            android:layout_alignStart="@+id/pio_radioGroup"
+            android:layout_below="@+id/pio_radioGroup"
             android:layout_marginStart="31dp"
             android:layout_marginTop="1dp"
             android:layout_weight="1"
@@ -58,8 +58,8 @@
             android:id="@+id/pio_unstableHousing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/radioGroup"
-            android:layout_below="@+id/radioGroup"
+            android:layout_alignStart="@+id/pio_radioGroup"
+            android:layout_below="@+id/pio_radioGroup"
             android:layout_marginStart="31dp"
             android:layout_marginTop="1dp"
             android:layout_weight="1"
@@ -68,8 +68,8 @@
             android:id="@+id/pio_rentalOrMortgage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/radioGroup"
-            android:layout_below="@+id/radioGroup"
+            android:layout_alignStart="@+id/pio_radioGroup"
+            android:layout_below="@+id/pio_radioGroup"
             android:layout_marginStart="31dp"
             android:layout_marginTop="1dp"
             android:layout_weight="1"
@@ -78,8 +78,8 @@
             android:id="@+id/pio_shelter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/radioGroup"
-            android:layout_below="@+id/radioGroup"
+            android:layout_alignStart="@+id/pio_radioGroup"
+            android:layout_below="@+id/pio_radioGroup"
             android:layout_marginStart="31dp"
             android:layout_marginTop="1dp"
             android:layout_weight="1"
@@ -88,8 +88,8 @@
             android:id="@+id/pio_abusive"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/radioGroup"
-            android:layout_below="@+id/radioGroup"
+            android:layout_alignStart="@+id/pio_radioGroup"
+            android:layout_below="@+id/pio_radioGroup"
             android:layout_marginStart="31dp"
             android:layout_marginTop="1dp"
 
@@ -116,7 +116,7 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/birthDate"
+            android:id="@+id/pio_birthDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/dateOfBirthHeader"
@@ -135,7 +135,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/radioGroup"
+        android:layout_below="@+id/pio_radioGroup"
         android:layout_marginTop="18sp">
 
         <TextView

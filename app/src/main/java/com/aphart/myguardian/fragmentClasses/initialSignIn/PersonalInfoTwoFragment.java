@@ -1,5 +1,6 @@
 package com.aphart.myguardian.fragmentClasses.initialSignIn;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -8,10 +9,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 
 import com.aphart.myguardian.R;
 import com.aphart.myguardian.interfaces.DataAccessObject;
 import com.aphart.myguardian.interfaces.UpdateUIOnDAOComplete;
+
+import myguardianDB.DBContract;
 
 
 /**
@@ -29,6 +33,11 @@ public class PersonalInfoTwoFragment extends Fragment implements UpdateUIOnDAOCo
     // TODO: Rename and change types of parameters
 
     private OnFragmentInteractionListener mListener;
+    private CheckBox pitMentalHealth;
+    private CheckBox pitPhysicalHealth;
+    private CheckBox pitPregnant;
+    private CheckBox pitAddiction;
+
 
     public PersonalInfoTwoFragment() {
         // Required empty public constructor
@@ -38,26 +47,23 @@ public class PersonalInfoTwoFragment extends Fragment implements UpdateUIOnDAOCo
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param userInfoBundle Parameter 1.
      * @return A new instance of fragment PersonalInfoTwoFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static PersonalInfoTwoFragment newInstance(String param1, String param2) {
+    public static PersonalInfoTwoFragment newInstance(Bundle userInfoBundle) {
         PersonalInfoTwoFragment fragment = new PersonalInfoTwoFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+        fragment.userInfoBundle = userInfoBundle;
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+        if (savedInstanceState != null && userInfoBundle == null) {
+            userInfoBundle = savedInstanceState.getBundle("INITIAL_SIGN_IN");
+
+
         }
     }
 
@@ -68,6 +74,20 @@ public class PersonalInfoTwoFragment extends Fragment implements UpdateUIOnDAOCo
         return inflater.inflate(R.layout.fragment_personal_info_two, container, false);
     }
 
+    @Override
+    public void onStart(){
+        super.onStart();
+        Activity activity = getActivity();
+        pitPregnant = (CheckBox)activity.findViewById(R.id.pit_pregnantCheckbox);
+        pitAddiction = (CheckBox)activity.findViewById(R.id.pit_addictionCheckbox);
+        pitMentalHealth = (CheckBox)activity.findViewById(R.id.pit_mentalHealthCheckbox);
+        pitPhysicalHealth = (CheckBox)activity.findViewById(R.id.pit_physicalHealthCheckbox);
+
+        pitPregnant.setChecked(userInfoBundle.getBoolean(DBContract.UserInfo.PREGNANT));
+        pitPhysicalHealth.setChecked(userInfoBundle.getBoolean(DBContract.UserInfo.PHYSICAL_HEALTH_ISSUES));
+        pitMentalHealth.setChecked(userInfoBundle.getBoolean(DBContract.UserInfo.MENTAL_HEALTH_ISSUES));
+        pitAddiction.setChecked(userInfoBundle.getBoolean(DBContract.UserInfo.ADDICTION_STATUS));
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -86,6 +106,11 @@ public class PersonalInfoTwoFragment extends Fragment implements UpdateUIOnDAOCo
         }
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+    }
     @Override
     public void onDetach() {
         super.onDetach();

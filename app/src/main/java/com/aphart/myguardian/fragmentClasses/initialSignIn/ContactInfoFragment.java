@@ -4,10 +4,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +20,7 @@ import android.widget.EditText;
 import com.aphart.myguardian.R;
 import com.aphart.myguardian.interfaces.DataAccessObject;
 import com.aphart.myguardian.interfaces.UpdateUIOnDAOComplete;
+import com.google.android.gms.internal.zzis;
 
 import myguardianDB.DBContract;
 
@@ -28,17 +32,12 @@ import myguardianDB.DBContract;
  * Use the {@link ContactInfoFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ContactInfoFragment extends Fragment implements UpdateUIOnDAOComplete, View.OnClickListener{
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class ContactInfoFragment extends Fragment implements UpdateUIOnDAOComplete, View.OnClickListener, View.OnFocusChangeListener{
     private Cursor cursor = null;
     private static String userPhoneNumber;
-    // TODO: Rename and change types of parameters
-
+    private boolean emailValidated;
+    private boolean phoneValidated;
     private static Bundle userInfoBundle;
-
     private EditText phoneNumber;
     private EditText emailAddress;
     private OnFragmentInteractionListener mListener;
@@ -124,7 +123,7 @@ public class ContactInfoFragment extends Fragment implements UpdateUIOnDAOComple
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.
+        outState.putBundle("INITIAL_SIGN_IN", userInfoBundle);
     }
 
     @Override
@@ -146,6 +145,30 @@ public class ContactInfoFragment extends Fragment implements UpdateUIOnDAOComple
     public void performUIDeleteAction(DataAccessObject dao, int rowsModified) {
 
     }
+
+    @Override
+    public void onFocusChange(View view, boolean b) {
+
+        switch (view.getId()){
+
+            case R.id.ci_phone:{
+                if(!b){
+                    Editable phone = phoneNumber.getText();
+                    phoneValidated = validatePhone(phone);
+
+                }
+            }
+            break;
+            case R.id.ci_email:{
+                if(!b){
+                    Editable email= emailAddress.getText();
+                    emailValidated = validateEmail(email);
+                }
+            }
+            break;
+        }
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this
@@ -173,10 +196,14 @@ public class ContactInfoFragment extends Fragment implements UpdateUIOnDAOComple
                 break;
             case R.id.ci_next:{
 
-                Editable editable = phoneNumber.getText();
-                editable.
                 if(emailValidated && phoneValidated){
-                    userInfoBundle.putString();
+                    userInfoBundle.putString(DBContract.UserInfo.EMAIL, emailAddress.toString());
+                    userInfoBundle.putString(DBContract.UserInfo.PHONE_NUMBER, phoneNumber.toString());
+                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    ft.replace(R.id.initialSignInActivityFragmentOne, PersonalInfoOneFragment.newInstance(userInfoBundle)); //Pass info
+                    ft.addToBackStack("contactInfoFragment");
+                    ft.commit();
                 }
             }
                 break;
@@ -190,6 +217,15 @@ public class ContactInfoFragment extends Fragment implements UpdateUIOnDAOComple
                 break;
         }
     }
-    private Button btn = (Button)getActivity().findViewById(R.id.ci_prev);
 
+    private boolean validateEmail(Editable emailAdd){
+        boolean isValid = false;
+        isValid = android.util.Patterns.EMAIL_ADDRESS.matcher(emailAdd).matches();
+        return isValid;
+    }
+    private boolean validatePhone(Editable phoneNum){
+        boolean isValid = false;
+        isValid = Patterns.PHONE .matcher(phoneNum).matches();
+        return isValid;
+    }
 }

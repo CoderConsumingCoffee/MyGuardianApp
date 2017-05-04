@@ -439,17 +439,8 @@ public abstract class DBContract {
         }
     }
 
-    public static final class NewUser implements BaseColumns{
-        public static final String NEW_USER_TABLE ="newuser";
-        public static final String IS_NEW_USER ="isnewuser";
-    }
-    public ContentValues generateNewUserTable(
-            boolean isNewUser
-    ){
-        ContentValues cv = new ContentValues();
-        cv.put(NewUser.IS_NEW_USER, isNewUser);
-        return cv;
-    }
+
+
 
     public static final class UserInfo implements BaseColumns{
         public static final String USER_INFO_TABLE = "userinfo";
@@ -468,26 +459,33 @@ public abstract class DBContract {
         public static final String MENTAL_HEALTH_ISSUES = "mentalhealthissues";
         public static final String PHYSICAL_HEALTH_ISSUES = "healthissues";
         public static final String PREGNANT = "pregnant";
+        public static final String ADDICTION_DETAILS_ID = "addictiondetailsid";
         public static final String MENTAL_HEALTH_ISSUES_ID = "mentalhealthissueid";
         public static final String PHYSICAL_HEALTH_ISSUES_ID = "physicalhealthissueid";
+        public static final String IS_NEW_USER = "newuser";
 
 
-        public ContentValues generateUserInfoTable(
+        //Gender Constants
+        public static final String MALE = "male";
+        public static final String FEMALE = "female";
+        public static final String NON_GENDERED = "nongendered";
+
+        public static ContentValues createNewUserInfo(
                 String Gender,
                 String PhoneNumber,
                 String Email,
                 String PreferedContactMethod,
-                String AddictionStatus,
+                boolean AddictionStatus,
                 int NumberOfChildren,
                 int Age,
                 String BirthDate,
                 String HousingStatus,
-                String JobStatus,
                 String EmploymentStatus,
                 String EducationLevel,
                 boolean MentalHealthIssues,
                 boolean PhysicalHealthIssues,
-                boolean Pregnant
+                boolean Pregnant,
+                boolean IsNewUser
         ){
             ContentValues values = new ContentValues();
 
@@ -500,12 +498,12 @@ public abstract class DBContract {
             values.put(AGE, Age);
             values.put(BIRTH_DATE, BirthDate);
             values.put(HOUSING_STATUS, HousingStatus);
-            values.put(JOB_STATUS, JobStatus);
             values.put(EMPLOYMENT_STATUS, EmploymentStatus);
             values.put(EDUCATION_LEVEL, EducationLevel);
             values.put(MENTAL_HEALTH_ISSUES, MentalHealthIssues);
             values.put(PHYSICAL_HEALTH_ISSUES, PhysicalHealthIssues);
             values.put(PREGNANT, Pregnant);
+            values.put(IS_NEW_USER, IsNewUser);
             return values;
         }
     }
@@ -528,13 +526,7 @@ public abstract class DBContract {
 
     //Constants class to be filled.
     // public static final class X implements BaseColumns{    }
-    public static final String CREATE_NEW_USER_TABLE=
-            "CREATE TABLE "
-                    + NewUser.NEW_USER_TABLE
-                    + " ("
-                    +NewUser._ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE" + COMMA
-                    +NewUser.IS_NEW_USER + BOOLEAN_TYPE
-                    + " )";
+
 
     public static final String CREATE_ORGANIZATION_TABLE =
             "CREATE TABLE "

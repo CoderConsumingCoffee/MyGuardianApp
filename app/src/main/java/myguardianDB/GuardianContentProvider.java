@@ -22,11 +22,12 @@ public class GuardianContentProvider extends ContentProvider {
     private static final String CONTENT = "content://";
     public static final Uri ORGANIZATION = Uri.parse(CONTENT + PROVIDER_NAME + "/" + DBContract.Organization.TABLE_NAME);
     public static final Uri GOVERNMENT = Uri.parse(CONTENT + PROVIDER_NAME + "/" + DBContract.Government.GOVERNMENT_TABLE_NAME);
-    public static final Uri NEW_USER = Uri.parse(CONTENT + PROVIDER_NAME + "/" + DBContract.NewUser.NEW_USER_TABLE);
+
+    public static final Uri USER_INFO = Uri.parse(CONTENT + PROVIDER_NAME + "/" + DBContract.UserInfo.USER_INFO_TABLE);
 
     private static final int ORGANIZATION_SWITCH = 1;
     private static final int GOVERNMENT_SWITCH = 2;
-    private static final int NEW_USER_SWITCH = 3;
+    private static final int USER_INFO_SWITCH = 3;
     private static SQLiteDatabase db; //Sharing across instances allows us to close DB from the static method on the class
     public Context context; //passed during instantiation of the
 
@@ -37,7 +38,7 @@ public class GuardianContentProvider extends ContentProvider {
 
         uriMatcher.addURI(PROVIDER_NAME, DBContract.Organization.TABLE_NAME, ORGANIZATION_SWITCH);
         uriMatcher.addURI(PROVIDER_NAME, DBContract.Government.GOVERNMENT_TABLE_NAME, GOVERNMENT_SWITCH);
-        uriMatcher.addURI(PROVIDER_NAME, DBContract.NewUser.NEW_USER_TABLE, GOVERNMENT_SWITCH);
+        uriMatcher.addURI(PROVIDER_NAME, DBContract.UserInfo.USER_INFO_TABLE, USER_INFO_SWITCH);
 //        uriMatcher.addURI(PROVIDER_NAME, "students/#", STUDENT_ID);
     }
 
@@ -80,16 +81,20 @@ public class GuardianContentProvider extends ContentProvider {
         String groupBy = null;
         String having = null;
         switch (uriMatcher.match(uri)) {
-            case NEW_USER_SWITCH: {
-                cursor = db.query(DBContract.NewUser.NEW_USER_TABLE, projection, selection, selectionArgs, groupBy, having, sortOrder);
-            }
+
             case GOVERNMENT_SWITCH: {
                 cursor = db.query(DBContract.Government.GOVERNMENT_TABLE_NAME, projection, selection, selectionArgs, groupBy, having, sortOrder);
             }
+            break;
+            case USER_INFO_SWITCH: {
+                cursor = db.query(DBContract.UserInfo.USER_INFO_TABLE, projection, selection, selectionArgs, groupBy, having, sortOrder);
+            }
+            break;
             case ORGANIZATION_SWITCH: {
                 cursor = db.query(DBContract.Organization.TABLE_NAME, projection, selection, selectionArgs, groupBy, having, sortOrder);
             }
             break;
+
 
         }
 
@@ -117,10 +122,10 @@ public class GuardianContentProvider extends ContentProvider {
                 rowID = db.insert(DBContract.Government.GOVERNMENT_TABLE_NAME, "", contentValues);
                 break;
 
-            case NEW_USER_SWITCH:
-                rowID = db.insert(DBContract.NewUser.NEW_USER_TABLE, "", contentValues);
-                break;
 
+            case USER_INFO_SWITCH:
+                rowID = db.insert(DBContract.UserInfo.USER_INFO_TABLE, "", contentValues);
+                break;
             //                default: throw new IllegalArgumentException("Unknown URI " + uri);
 
         }
@@ -149,11 +154,12 @@ public class GuardianContentProvider extends ContentProvider {
                 db.delete(DBContract.Government.GOVERNMENT_TABLE_NAME, whereClause, whereArgs);
                 break;
 
-            case NEW_USER_SWITCH:
-                db.delete(DBContract.NewUser.NEW_USER_TABLE, whereClause, whereArgs);
+
+
+            case USER_INFO_SWITCH:
+                //Should only be one user per device and per app, thus only one row of user table should ever be present locally
+                db.execSQL("DELETE FROM " + DBContract.UserInfo.USER_INFO_TABLE +" WHERE " + DBContract.UserInfo._ID + " >= 0;");
                 break;
-
-
         }
 
 
@@ -175,10 +181,9 @@ public class GuardianContentProvider extends ContentProvider {
                 db.update(DBContract.Government.GOVERNMENT_TABLE_NAME, contentValues, whereClause, whereArgs);
                 break;
 
-            case NEW_USER_SWITCH:
-                db.update(DBContract.NewUser.NEW_USER_TABLE, contentValues, whereClause, whereArgs);
-                break;
 
+            case USER_INFO_SWITCH:
+                db.update(DBContract.UserInfo.USER_INFO_TABLE, contentValues, whereClause, whereArgs);
 
         }
 

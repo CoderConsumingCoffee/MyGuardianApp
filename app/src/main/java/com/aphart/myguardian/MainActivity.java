@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,7 +15,8 @@ import android.util.Log;
 import android.view.View;
 
 import com.aphart.myguardian.Exceptions.CallingClassNotCompatable;
-import com.aphart.myguardian.dataAccessObjects.NewUserTableDAO;
+import com.aphart.myguardian.dataAccessObjects.UserInfoTableDAO;
+import com.aphart.myguardian.interfaces.DataAccessObject;
 import com.aphart.myguardian.interfaces.UpdateUIOnDAOComplete;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -25,7 +27,6 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-import myguardianDB.DBContract;
 import myguardianDB.GuardianContentProvider;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, UpdateUIOnDAOComplete {
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         super.onCreate(savedInstanceState);
         //set up whether the user has answered the initial questions
         try {
-            NewUserTableDAO.getInstance().queryIsNewUser(this);
+            UserInfoTableDAO.getInstance().queryIsNewUser(this);
         } catch (CallingClassNotCompatable callingClassNotCompatable) {
             callingClassNotCompatable.printStackTrace();
         }
@@ -158,17 +159,32 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     @Override
-    public void performQueryAction(Cursor cursors) {
-        if (!cursors.isClosed() && cursors.moveToFirst()){
-            if (cursors.getInt(cursors.getColumnIndex(DBContract.NewUser.IS_NEW_USER)) == 0){
-                isRegistered = false;
-            }else{
-                isRegistered = true;
-            }
+    public void performUIQueryAction(DataAccessObject dao, Cursor cursor) {
+        if (!cursor.isClosed() && cursor.moveToFirst()){
+            isRegistered = true;
+        }else{
+            isRegistered = false;
         }
         isNewUserHasReturned = true;
-        cursors.close();
+        cursor.close();
         GuardianContentProvider.closeDBConnection();
+    }
+
+
+
+    @Override
+    public void performUIInsertAction(DataAccessObject dao, Uri uri) {
+        //Not called
+    }
+
+    @Override
+    public void performUIUpdateAction(DataAccessObject dao, int rowsModified) {
+        //No update
+    }
+
+    @Override
+    public void performUIDeleteAction(DataAccessObject dao, int rowsModified) {
+        //No delete
     }
 
     public static class ErrorDialogFragment extends DialogFragment {
@@ -213,7 +229,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
 //            mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
-            updateUI(true);
+
+           updateUI(true);
         } else {
             System.out.println(result.getStatus().toString());
             // Signed out, show unauthenticated UI.

@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.aphart.myguardian.R;
 import com.aphart.myguardian.interfaces.DataAccessObject;
@@ -40,6 +41,7 @@ public class ContactInfoFragment extends Fragment implements UpdateUIOnDAOComple
     private static Bundle userInfoBundle;
     private EditText phoneNumber;
     private EditText emailAddress;
+    private Spinner preferedContact;
     private OnFragmentInteractionListener mListener;
 
     public ContactInfoFragment() {
@@ -67,7 +69,8 @@ public class ContactInfoFragment extends Fragment implements UpdateUIOnDAOComple
         TelephonyManager tm = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
         userPhoneNumber = tm.getLine1Number();
         if(savedInstanceState != null){
-            userInfoBundle.
+            userInfoBundle = savedInstanceState.getBundle("INITIAL_SIGN_IN");
+
         }
     }
 
@@ -88,6 +91,10 @@ public class ContactInfoFragment extends Fragment implements UpdateUIOnDAOComple
     }
 
     @Override
+    public void onStart(){
+    super.onStart();
+    }
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         phoneNumber = (EditText) getActivity().findViewById(R.id.ci_phone);
@@ -103,6 +110,13 @@ public class ContactInfoFragment extends Fragment implements UpdateUIOnDAOComple
 
             }else{
                 phoneNumber.setText(userInfoBundle.getString(DBContract.UserInfo.PHONE_NUMBER));
+            }
+            //Set previously selected job status
+            String[] pcArray = getResources().getStringArray(R.array.prefered_contact_method);
+            for (int i = 0; i < pcArray.length; i++) {
+                if (pcArray[i].equalsIgnoreCase(userInfoBundle.getString(DBContract.UserInfo.PREFERRED_CONTACT_METHOD))){
+                    preferedContact.setSelection(i);
+                }
             }
         }
 
@@ -123,6 +137,7 @@ public class ContactInfoFragment extends Fragment implements UpdateUIOnDAOComple
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        setUserBundle();
         outState.putBundle("INITIAL_SIGN_IN", userInfoBundle);
     }
 
@@ -201,7 +216,7 @@ public class ContactInfoFragment extends Fragment implements UpdateUIOnDAOComple
                     userInfoBundle.putString(DBContract.UserInfo.PHONE_NUMBER, phoneNumber.toString());
                     FragmentManager fm = getActivity().getSupportFragmentManager();
                     FragmentTransaction ft = fm.beginTransaction();
-                    ft.replace(R.id.initialSignInActivityFragmentOne, PersonalInfoOneFragment.newInstance(userInfoBundle)); //Pass info
+                    ft.replace(android.R.id.content, PersonalInfoOneFragment.newInstance(userInfoBundle)); //Pass info
                     ft.addToBackStack("contactInfoFragment");
                     ft.commit();
                 }
@@ -227,5 +242,10 @@ public class ContactInfoFragment extends Fragment implements UpdateUIOnDAOComple
         boolean isValid = false;
         isValid = Patterns.PHONE .matcher(phoneNum).matches();
         return isValid;
+    }
+    private void setUserBundle(){
+        userInfoBundle.putString(DBContract.UserInfo.PHONE_NUMBER,phoneNumber.getText().toString());
+        userInfoBundle.putString(DBContract.UserInfo.EMAIL,emailAddress.getText().toString());
+        userInfoBundle.putString(DBContract.UserInfo.PREFERRED_CONTACT_METHOD, preferedContact.getSelectedItem().toString());
     }
 }

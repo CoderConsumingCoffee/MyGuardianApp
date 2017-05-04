@@ -48,6 +48,11 @@
         android:selectAllOnFocus="true"
         android:singleLine="true" />
 
+    <Spinner
+        android:id="@+id/ci_prefered_contact_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <TextView
         android:id="@+id/ci_contactHeader2"
         android:layout_width="match_parent"

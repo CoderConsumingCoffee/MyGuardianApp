@@ -23,19 +23,32 @@
     <!-- Personal Information One Fragment String Resources-->
 
     <string name="pio_personal_info_one_header">Now let\'s get personal. This will be used to help insure we can match you with the services you need.</string>
-    <string name="pio_date_birth_header">What\'s your birthdate?</string>
+    <string name="pio_date_birth_header">What\'s your birth date?</string>
     <string name="pio_housing_status_header">What is your housing status?</string>
     <string name="pio_educationLevelHeader">What is your highest education level?</string>
     <string name="pio_employmentStatusHeader">What is your current empolyment status?</string>
     <string name="pio_numberOfChildrenHeader">How many kids do you have?</string>
-    <string name="pio_spinner_children_promt">How many children do you have?</string>
+    <string name="pio_spinner_children_prompt">How many children do you have?</string>
     <string name="pio_spinner_education_prompt">Select your highest education.</string>
-    <string name="pio_spinner_jobstatus_prompt">What is your employment level?</string>
+    <string name="pio_spinner_job_status_prompt">What is your employment level?</string>
+    <string name="pio_spinner_housing_status_prompt">What is your housing situation?</string>
     <string name="pit_first_header">These more personal questions are valuable for matching you to the aid you deserve.</string>
     <string name="pit_is_physical_health">Do you need any help with physical health?</string>
     <string name="pit_is_mental_health">Do you need any help with mental health?</string>
     <string name="pit_is_addicted">Do you need any help with addiction?</string>
     <string name="pit_is_pregnant">Are you currently/possibly pregnant?</string>
+    <string-array name="prefered_contact_method">
+        <item>Email</item>
+        <item>Phone</item>
+    </string-array>
+    <string-array name="housing_status">
+        <item>Housing Status</item>
+        <item>Homeless</item>
+        <item>Unstable Housing</item>
+        <item>Renting/Mortgage</item>
+        <item>Shelter/Rehab/Halfway House</item>
+        <item>Abusive</item>
+    </string-array>
     <string-array name="job_status">
         <item>Job Status</item>
         <item>Unemployed</item>

@@ -27,7 +27,7 @@
         android:textSize="24sp"
         android:textStyle="bold" />
 
-    <RadioGroup
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/pio_radioGroup"
@@ -44,58 +44,21 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <RadioButton
-            android:id="@+id/pio_homeless"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/pio_radioGroup"
-            android:layout_below="@+id/pio_radioGroup"
-            android:layout_marginStart="31dp"
-            android:layout_marginTop="1dp"
-            android:layout_weight="1"
-            android:text="Homeless" />
-        <RadioButton
-            android:id="@+id/pio_unstableHousing"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/pio_radioGroup"
-            android:layout_below="@+id/pio_radioGroup"
-            android:layout_marginStart="31dp"
-            android:layout_marginTop="1dp"
-            android:layout_weight="1"
-            android:text="Unstable Housing" />
-        <RadioButton
-            android:id="@+id/pio_rentalOrMortgage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/pio_radioGroup"
-            android:layout_below="@+id/pio_radioGroup"
-            android:layout_marginStart="31dp"
-            android:layout_marginTop="1dp"
-            android:layout_weight="1"
-            android:text="Renting/Mortgage" />
-        <RadioButton
-            android:id="@+id/pio_shelter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/pio_radioGroup"
-            android:layout_below="@+id/pio_radioGroup"
-            android:layout_marginStart="31dp"
-            android:layout_marginTop="1dp"
-            android:layout_weight="1"
-            android:text="Shelter/Rehab/Halfway House" />
-        <RadioButton
-            android:id="@+id/pio_abusive"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/pio_radioGroup"
-            android:layout_below="@+id/pio_radioGroup"
-            android:layout_marginStart="31dp"
-            android:layout_marginTop="1dp"
+        <Spinner
+            android:id="@+id/pio_housingStatus"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:layout_alignParentEnd="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="28sp"
+            android:entries="@array/housing_status"
+            android:prompt="@string/pio_spinner_housing_status_prompt"
+            android:spinnerMode="dialog"
+            android:textAlignment="center" />
 
-            android:layout_weight="1"
-            android:text="Abusive" />
-    </RadioGroup>
+
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -157,7 +120,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="28sp"
             android:entries="@array/number_of_children"
-
+            android:prompt="@string/pio_spinner_children_prompt"
             android:spinnerMode="dialog"
             android:textAlignment="center" />
 
@@ -188,6 +151,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="28sp"
             android:entries="@array/job_status"
+            android:prompt="@string/pio_spinner_job_status_prompt"
 
             android:spinnerMode="dialog"
             android:textAlignment="center" />

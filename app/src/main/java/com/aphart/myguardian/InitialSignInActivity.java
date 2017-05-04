@@ -1,5 +1,6 @@
 package com.aphart.myguardian;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,9 +10,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.aphart.myguardian.fragmentClasses.initialSignIn.ContactInfoFragment;
 import com.aphart.myguardian.fragmentClasses.initialSignIn.InitialSignInActivityBeginFragment;
+import com.aphart.myguardian.fragmentClasses.initialSignIn.PersonalInfoOneFragment;
+import com.aphart.myguardian.fragmentClasses.initialSignIn.PersonalInfoTwoFragment;
 
-public class InitialSignInActivity extends AppCompatActivity {
+public class InitialSignInActivity extends AppCompatActivity implements
+        InitialSignInActivityBeginFragment.OnFragmentInteractionListener,
+        ContactInfoFragment.OnFragmentInteractionListener,
+        PersonalInfoOneFragment.OnFragmentInteractionListener,
+        PersonalInfoTwoFragment.OnFragmentInteractionListener{
 
 
     @Override
@@ -22,10 +30,11 @@ public class InitialSignInActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-
-        ft.replace(android.R.id.content, new InitialSignInActivityBeginFragment());
+//        FragmentManager fm = getSupportFragmentManager();
+//        FragmentTransaction ft = fm.beginTransaction();
+//
+//        ft.replace(R.id.initialSignInActivityFragmentOne, new InitialSignInActivityBeginFragment());
+//        ft.commit();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -37,4 +46,8 @@ public class InitialSignInActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }

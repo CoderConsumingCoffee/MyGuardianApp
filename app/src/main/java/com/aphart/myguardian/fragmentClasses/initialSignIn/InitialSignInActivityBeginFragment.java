@@ -33,7 +33,7 @@ public class InitialSignInActivityBeginFragment extends Fragment implements View
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private Cursor cursor = null;
-    private static int genderId;
+    private static String genderId;
     private static Bundle userInfoBundle;
 
 
@@ -67,7 +67,7 @@ public class InitialSignInActivityBeginFragment extends Fragment implements View
             if(userInfoBundle == null) {
                 userInfoBundle = savedInstanceState.getBundle("INITIAL_SIGN_IN");
             }
-            genderId = userInfoBundle.getInt(DBContract.UserInfo.GENDER);
+            genderId = userInfoBundle.getString(DBContract.UserInfo.GENDER);
 
         }
     }
@@ -97,8 +97,20 @@ public class InitialSignInActivityBeginFragment extends Fragment implements View
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
-        if(genderId>0){
-            Button btn = (Button) getActivity().findViewById(genderId);
+        if(!genderId.equalsIgnoreCase("")){
+            int viewId = 0;
+            switch (genderId){
+                case DBContract.UserInfo.MALE:
+                    viewId = R.id.isi_amMan;
+                    break;
+                case DBContract.UserInfo.FEMALE:
+                    viewId = R.id.isi_amWoman;
+                    break;
+                case DBContract.UserInfo.NON_GENDERED:
+                    viewId = R.id.isi_amNonGendered;
+                    break;
+            }
+            Button btn = (Button) getActivity().findViewById(viewId);
             btn.setBackgroundColor(getResources().getColor(R.color.millinialPink));
         }
     }
@@ -113,7 +125,7 @@ public class InitialSignInActivityBeginFragment extends Fragment implements View
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        userInfoBundle.putInt(DBContract.UserInfo.GENDER, genderId);
+        userInfoBundle.putString(DBContract.UserInfo.GENDER, genderId);
         outState.putBundle("INITIAL_SIGN_IN", userInfoBundle);
     }
 
@@ -143,24 +155,24 @@ public class InitialSignInActivityBeginFragment extends Fragment implements View
     public void onClick(View view){
         switch (view.getId()){
             case R.id.isi_amMan:{
-                genderId = view.getId();
+                genderId = DBContract.UserInfo.MALE;
                 launchContactInfoFragment();
             }
                 break;
             case R.id.isi_amWoman:{
-                genderId = view.getId();
+                genderId = DBContract.UserInfo.FEMALE;
                 launchContactInfoFragment();
             }
                 break;
             case R.id.isi_amNonGendered:{
-                genderId = view.getId();
+                genderId = DBContract.UserInfo.NON_GENDERED;
                 launchContactInfoFragment();
             }
                 break;
         }
     }
     private void launchContactInfoFragment(){
-        userInfoBundle.putInt(DBContract.UserInfo.GENDER, genderId);
+        userInfoBundle.putString(DBContract.UserInfo.GENDER, genderId);
         FragmentManager fm = getActivity().getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.initialSignInActivityFragmentOne, ContactInfoFragment.newInstance(userInfoBundle)); //Pass info

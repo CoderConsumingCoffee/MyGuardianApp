@@ -2,16 +2,21 @@ package com.aphart.myguardian.fragmentClasses.initialSignIn;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 
+import com.aphart.myguardian.Exceptions.CallingClassNotCompatable;
 import com.aphart.myguardian.R;
+import com.aphart.myguardian.UserHomeActivity;
+import com.aphart.myguardian.dataAccessObjects.UserInfoTableDAO;
 import com.aphart.myguardian.interfaces.DataAccessObject;
 import com.aphart.myguardian.interfaces.UpdateUIOnDAOComplete;
 
@@ -26,7 +31,7 @@ import myguardianDB.DBContract;
  * Use the {@link PersonalInfoTwoFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PersonalInfoTwoFragment extends Fragment implements UpdateUIOnDAOComplete{
+public class PersonalInfoTwoFragment extends Fragment implements UpdateUIOnDAOComplete, View.OnClickListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static Bundle userInfoBundle;
@@ -109,6 +114,10 @@ public class PersonalInfoTwoFragment extends Fragment implements UpdateUIOnDAOCo
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        //Save user fields
+        setUserBundle();
+        //Save user bundle
+        outState.putBundle("INITIAL_SIGN_IN", userInfoBundle);
 
     }
     @Override
@@ -119,24 +128,62 @@ public class PersonalInfoTwoFragment extends Fragment implements UpdateUIOnDAOCo
 
     @Override
     public void performUIQueryAction(DataAccessObject dao, Cursor cursor) {
-
+        //No queries to be performed in fragment
     }
 
     @Override
     public void performUIInsertAction(DataAccessObject dao, Uri uri) {
+        //Launch main signed in activity
+        Activity activity = getActivity();
+        Intent intent = new Intent(activity, UserHomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        activity.finish(); // call this to finish the current activity
+
 
     }
 
     @Override
     public void performUIUpdateAction(DataAccessObject dao, int rowsModified) {
+        //Not used
+
 
     }
 
     @Override
     public void performUIDeleteAction(DataAccessObject dao, int rowsModified) {
-
+        //No deletion actions for fragment
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.pit_nextBtn:{
+                setUserBundle();
+                //Add user info to content values and save to database.
+                try {
+                    UserInfoTableDAO.getInstance().insertUserRegistered(getActivity(), userInfoBundle);
+                } catch (CallingClassNotCompatable callingClassNotCompatable) {
+                    callingClassNotCompatable.printStackTrace();
+                }
+            }
+                break;
+            case R.id.pit_prev:{
+                //Save all user fields
+                setUserBundle();
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                //Clear backstack to named fragment
+                fm.popBackStack("personalInfoOneFragment",fm.POP_BACK_STACK_INCLUSIVE);
+            }
+                break;
+        }
+    }
+    private void setUserBundle(){
+        userInfoBundle.putBoolean(DBContract.UserInfo.PREGNANT, pitPregnant.isChecked());
+        userInfoBundle.putBoolean(DBContract.UserInfo.PHYSICAL_HEALTH_ISSUES, pitPhysicalHealth.isChecked());
+        userInfoBundle.putBoolean(DBContract.UserInfo.MENTAL_HEALTH_ISSUES, pitMentalHealth.isChecked());
+        userInfoBundle.putBoolean(DBContract.UserInfo.ADDICTION_STATUS, pitAddiction.isChecked());
+    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

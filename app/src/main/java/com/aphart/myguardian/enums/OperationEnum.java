@@ -5,7 +5,7 @@ package com.aphart.myguardian.enums;
  */
 
 public enum OperationEnum {
-    CREATE("CREATE"), UPDATE("UPDATE"), INSERT("INSERT"), READ("READ"), DELETE("DELETE");
+    CREATE("CREATE"), UPDATE("UPDATE"), READ("READ"), DELETE("DELETE");
 
     private final String name;
 

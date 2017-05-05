@@ -12,7 +12,8 @@
 
     <!-- Contact Information Fragment String Resources -->
     <string name="ci_contactHeader">In the event we need to contact you, what\'s the best number and email?</string>
-    <string name="ci_contactHeader2">Which of these is your prefered contact method?</string>
+    <string name="ci_contactHeader2">Which of these is your preferred contact method?</string>
+    <string name="ci_spinner_prompt">Select your preferred contact method.</string>
 
     <!--Generic Widget String Resources -->
 
@@ -26,7 +27,7 @@
     <string name="pio_date_birth_header">What\'s your birth date?</string>
     <string name="pio_housing_status_header">What is your housing status?</string>
     <string name="pio_educationLevelHeader">What is your highest education level?</string>
-    <string name="pio_employmentStatusHeader">What is your current empolyment status?</string>
+    <string name="pio_employmentStatusHeader">What is your current employment status?</string>
     <string name="pio_numberOfChildrenHeader">How many kids do you have?</string>
     <string name="pio_spinner_children_prompt">How many children do you have?</string>
     <string name="pio_spinner_education_prompt">Select your highest education.</string>
@@ -37,7 +38,7 @@
     <string name="pit_is_mental_health">Do you need any help with mental health?</string>
     <string name="pit_is_addicted">Do you need any help with addiction?</string>
     <string name="pit_is_pregnant">Are you currently/possibly pregnant?</string>
-    <string-array name="prefered_contact_method">
+    <string-array name="ci_preferred_contact_method">
         <item>Email</item>
         <item>Phone</item>
     </string-array>
@@ -66,7 +67,7 @@
         <item>Bachelors Degree</item>
         <item>Graduate Degree</item>
     </string-array>
-    <integer-array name="number_of_children">
+    <string-array name="number_of_children">
         <item>0</item>
         <item>1</item>
         <item>2</item>
@@ -78,7 +79,7 @@
         <item>8</item>
         <item>9</item>
         <item>10</item>
-    </integer-array>
+    </string-array>
     <!-- Personal Information Two Fragment String Resources  -->
 
 

@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     tools:context=".fragmentClasses.initialSignIn.PersonalInfoOneFragment">
 
-    <!-- TODO: Update blank fragment layout -->
 
 <ScrollView
     android:layout_width="match_parent"
@@ -77,6 +76,7 @@
             android:textAlignment="center"
             android:textSize="18sp"
             android:textStyle="bold" />
+
 
         <EditText
             android:id="@+id/pio_birthDate"

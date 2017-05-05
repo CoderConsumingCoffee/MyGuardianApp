@@ -17,27 +17,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.aphart.myguardian.R;
 import com.aphart.myguardian.interfaces.DataAccessObject;
+import com.aphart.myguardian.interfaces.OnFragmentInteractionListener;
 import com.aphart.myguardian.interfaces.UpdateUIOnDAOComplete;
 import com.google.android.gms.internal.zzis;
 
 import myguardianDB.DBContract;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ContactInfoFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ContactInfoFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class ContactInfoFragment extends Fragment implements UpdateUIOnDAOComplete, View.OnClickListener, View.OnFocusChangeListener{
+
+public class ContactInfoFragment extends Fragment{
     private Cursor cursor = null;
     private static String userPhoneNumber;
-    private boolean emailValidated;
-    private boolean phoneValidated;
     private static Bundle userInfoBundle;
     private EditText phoneNumber;
     private EditText emailAddress;
@@ -66,8 +59,7 @@ public class ContactInfoFragment extends Fragment implements UpdateUIOnDAOComple
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TelephonyManager tm = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-        userPhoneNumber = tm.getLine1Number();
+
         if(savedInstanceState != null){
             userInfoBundle = savedInstanceState.getBundle("INITIAL_SIGN_IN");
 
@@ -83,42 +75,84 @@ public class ContactInfoFragment extends Fragment implements UpdateUIOnDAOComple
 
 
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
+
 
     @Override
     public void onStart(){
     super.onStart();
+        //TODO set up permissions for the app
+       // TelephonyManager tm = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+        //userPhoneNumber = tm.getLine1Number();
+
+        View.OnClickListener onClickListener= new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                switch (view.getId()){
+
+                    case R.id.ci_prev:{
+                        android.app.FragmentManager fm = getActivity().getFragmentManager();
+                        fm.popBackStack("iniSignInActivityBeginFragment",fm.POP_BACK_STACK_INCLUSIVE);
+                    }
+                    break;
+                    case R.id.ci_next:{
+
+                        if(validateEmail(emailAddress.getText()) && validatePhone(phoneNumber.getText())){
+                            setUserBundle();
+                           proceed();
+
+                        }
+                        else {
+                            Toast.makeText(getActivity(),"Contact Information is not valid",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    break;
+                    case R.id.ci_phone:{
+
+                    }
+                    break;
+                    case R.id.ci_email:{
+
+                    }
+                    break;
+                }
+            }
+        };
+
+        getView().findViewById(R.id.ci_prev).setOnClickListener(onClickListener);
+        getView().findViewById(R.id.ci_next).setOnClickListener(onClickListener);
+        getView().findViewById(R.id.ci_phone).setOnClickListener(onClickListener);
+        getView().findViewById(R.id.ci_email).setOnClickListener(onClickListener);
+
+
+
+        phoneNumber = (EditText) getActivity().findViewById(R.id.ci_phone);
+        emailAddress = (EditText) getActivity().findViewById(R.id.ci_email);
+        preferedContact = (Spinner) getActivity().findViewById(R.id.ci_prefered_contact_spinner);
+        phoneNumber.setText(userPhoneNumber);
+
+            if (userInfoBundle.getString(DBContract.UserInfo.EMAIL) != null) {
+
+                emailAddress.setText(userInfoBundle.getString(DBContract.UserInfo.EMAIL));
+            }
+            if (userInfoBundle.getString(DBContract.UserInfo.PHONE_NUMBER) != null) {
+
+                phoneNumber.setText(userInfoBundle.getString(DBContract.UserInfo.PHONE_NUMBER));
+            }
+            if (userInfoBundle.getString(DBContract.UserInfo.PREFERRED_CONTACT_METHOD) != null) {
+                //Set previously selected job status
+                String[] pcArray = getResources().getStringArray(R.array.ci_preferred_contact_method);
+                for (int i = 0; i < pcArray.length; i++) {
+                    if (pcArray[i].equalsIgnoreCase(userInfoBundle.getString(DBContract.UserInfo.PREFERRED_CONTACT_METHOD))) {
+                        preferedContact.setSelection(i);
+                    }
+                }
+            }
+
     }
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        phoneNumber = (EditText) getActivity().findViewById(R.id.ci_phone);
-        emailAddress = (EditText) getActivity().findViewById(R.id.ci_email);
-        phoneNumber.setText(userPhoneNumber);
-        if(userInfoBundle != null){
-            if (userInfoBundle.getString(DBContract.UserInfo.EMAIL).isEmpty()){
 
-            }else{
-                emailAddress.setText(userInfoBundle.getString(DBContract.UserInfo.EMAIL));
-            }
-            if (userInfoBundle.getString(DBContract.UserInfo.PHONE_NUMBER).isEmpty()){
-
-            }else{
-                phoneNumber.setText(userInfoBundle.getString(DBContract.UserInfo.PHONE_NUMBER));
-            }
-            //Set previously selected job status
-            String[] pcArray = getResources().getStringArray(R.array.prefered_contact_method);
-            for (int i = 0; i < pcArray.length; i++) {
-                if (pcArray[i].equalsIgnoreCase(userInfoBundle.getString(DBContract.UserInfo.PREFERRED_CONTACT_METHOD))){
-                    preferedContact.setSelection(i);
-                }
-            }
-        }
 
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
@@ -141,97 +175,7 @@ public class ContactInfoFragment extends Fragment implements UpdateUIOnDAOComple
         outState.putBundle("INITIAL_SIGN_IN", userInfoBundle);
     }
 
-    @Override
-    public void performUIQueryAction(DataAccessObject dao, Cursor cursor) {
 
-    }
-
-    @Override
-    public void performUIInsertAction(DataAccessObject dao, Uri uri) {
-
-    }
-
-    @Override
-    public void performUIUpdateAction(DataAccessObject dao, int rowsModified) {
-
-    }
-
-    @Override
-    public void performUIDeleteAction(DataAccessObject dao, int rowsModified) {
-
-    }
-
-    @Override
-    public void onFocusChange(View view, boolean b) {
-
-        switch (view.getId()){
-
-            case R.id.ci_phone:{
-                if(!b){
-                    Editable phone = phoneNumber.getText();
-                    phoneValidated = validatePhone(phone);
-
-                }
-            }
-            break;
-            case R.id.ci_email:{
-                if(!b){
-                    Editable email= emailAddress.getText();
-                    emailValidated = validateEmail(email);
-                }
-            }
-            break;
-        }
-    }
-
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
-
-    @Override
-    public void onClick(View view){
-        switch (view.getId()){
-
-            case R.id.ci_prev:{
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                fm.popBackStack("iniSignInActivityBeginFragment",fm.POP_BACK_STACK_INCLUSIVE);
-            }
-                break;
-            case R.id.ci_next:{
-
-                if(emailValidated && phoneValidated){
-                    userInfoBundle.putString(DBContract.UserInfo.EMAIL, emailAddress.toString());
-                    userInfoBundle.putString(DBContract.UserInfo.PHONE_NUMBER, phoneNumber.toString());
-                    FragmentManager fm = getActivity().getSupportFragmentManager();
-                    FragmentTransaction ft = fm.beginTransaction();
-                    ft.replace(android.R.id.content, PersonalInfoOneFragment.newInstance(userInfoBundle)); //Pass info
-                    ft.addToBackStack("contactInfoFragment");
-                    ft.commit();
-                }
-            }
-                break;
-            case R.id.ci_phone:{
-
-            }
-                break;
-            case R.id.ci_email:{
-
-            }
-                break;
-        }
-    }
 
     private boolean validateEmail(Editable emailAdd){
         boolean isValid = false;
@@ -246,6 +190,10 @@ public class ContactInfoFragment extends Fragment implements UpdateUIOnDAOComple
     private void setUserBundle(){
         userInfoBundle.putString(DBContract.UserInfo.PHONE_NUMBER,phoneNumber.getText().toString());
         userInfoBundle.putString(DBContract.UserInfo.EMAIL,emailAddress.getText().toString());
-        userInfoBundle.putString(DBContract.UserInfo.PREFERRED_CONTACT_METHOD, preferedContact.getSelectedItem().toString());
+        String[] contactArray = getResources().getStringArray(R.array.ci_preferred_contact_method);
+        userInfoBundle.putString(DBContract.UserInfo.PREFERRED_CONTACT_METHOD, contactArray[preferedContact.getSelectedItemPosition()]);
+    }
+    private void proceed(){
+        mListener.replaceFragment(this, userInfoBundle);
     }
 }

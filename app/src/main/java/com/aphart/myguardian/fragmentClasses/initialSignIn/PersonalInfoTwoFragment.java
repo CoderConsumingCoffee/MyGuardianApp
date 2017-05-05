@@ -18,25 +18,15 @@ import com.aphart.myguardian.R;
 import com.aphart.myguardian.UserHomeActivity;
 import com.aphart.myguardian.dataAccessObjects.UserInfoTableDAO;
 import com.aphart.myguardian.interfaces.DataAccessObject;
+import com.aphart.myguardian.interfaces.OnFragmentInteractionListener;
 import com.aphart.myguardian.interfaces.UpdateUIOnDAOComplete;
 
 import myguardianDB.DBContract;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link PersonalInfoTwoFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link PersonalInfoTwoFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class PersonalInfoTwoFragment extends Fragment implements UpdateUIOnDAOComplete, View.OnClickListener{
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static Bundle userInfoBundle;
-    // TODO: Rename and change types of parameters
+public class PersonalInfoTwoFragment extends Fragment implements UpdateUIOnDAOComplete{
 
+    private static Bundle userInfoBundle;
     private OnFragmentInteractionListener mListener;
     private CheckBox pitMentalHealth;
     private CheckBox pitPhysicalHealth;
@@ -55,7 +45,7 @@ public class PersonalInfoTwoFragment extends Fragment implements UpdateUIOnDAOCo
      * @param userInfoBundle Parameter 1.
      * @return A new instance of fragment PersonalInfoTwoFragment.
      */
-    // TODO: Rename and change types and number of parameters
+
     public static PersonalInfoTwoFragment newInstance(Bundle userInfoBundle) {
         PersonalInfoTwoFragment fragment = new PersonalInfoTwoFragment();
         fragment.userInfoBundle = userInfoBundle;
@@ -88,15 +78,48 @@ public class PersonalInfoTwoFragment extends Fragment implements UpdateUIOnDAOCo
         pitMentalHealth = (CheckBox)activity.findViewById(R.id.pit_mentalHealthCheckbox);
         pitPhysicalHealth = (CheckBox)activity.findViewById(R.id.pit_physicalHealthCheckbox);
 
-        pitPregnant.setChecked(userInfoBundle.getBoolean(DBContract.UserInfo.PREGNANT));
-        pitPhysicalHealth.setChecked(userInfoBundle.getBoolean(DBContract.UserInfo.PHYSICAL_HEALTH_ISSUES));
-        pitMentalHealth.setChecked(userInfoBundle.getBoolean(DBContract.UserInfo.MENTAL_HEALTH_ISSUES));
-        pitAddiction.setChecked(userInfoBundle.getBoolean(DBContract.UserInfo.ADDICTION_STATUS));
-    }
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+        View.OnClickListener onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (view.getId()){
+                    case R.id.pit_nextBtn:{
+                        setUserBundle();
+                        //Add user info to content values and save to database.
+                        try {
+                            UserInfoTableDAO.getInstance().insertUserRegistered(getActivity(), userInfoBundle);
+                        } catch (CallingClassNotCompatable callingClassNotCompatable) {
+                            callingClassNotCompatable.printStackTrace();
+                        }
+                    }
+                    break;
+                    case R.id.pit_prev:{
+                        //Save all user fields
+                        setUserBundle();
+                        FragmentManager fm = getActivity().getSupportFragmentManager();
+                        //Clear backstack to named fragment
+                        fm.popBackStack("personalInfoOneFragment",fm.POP_BACK_STACK_INCLUSIVE);
+                    }
+                    break;
+                }
+            }
+        };
+
+        getView().findViewById(R.id.pit_nextBtn).setOnClickListener(onClickListener);
+        getView().findViewById(R.id.pit_prev).setOnClickListener(onClickListener);
+
+
+
+        if (userInfoBundle.getBoolean(DBContract.UserInfo.PREGNANT)) {
+            pitPregnant.setChecked(userInfoBundle.getBoolean(DBContract.UserInfo.PREGNANT));
+        }
+        if (userInfoBundle.getBoolean(DBContract.UserInfo.PHYSICAL_HEALTH_ISSUES)) {
+            pitPhysicalHealth.setChecked(userInfoBundle.getBoolean(DBContract.UserInfo.PHYSICAL_HEALTH_ISSUES));
+        }
+        if (userInfoBundle.getBoolean(DBContract.UserInfo.MENTAL_HEALTH_ISSUES)){
+            pitMentalHealth.setChecked(userInfoBundle.getBoolean(DBContract.UserInfo.MENTAL_HEALTH_ISSUES));
+        }
+        if (userInfoBundle.getBoolean(DBContract.UserInfo.ADDICTION_STATUS)){
+            pitAddiction.setChecked(userInfoBundle.getBoolean(DBContract.UserInfo.ADDICTION_STATUS));
         }
     }
 
@@ -133,12 +156,7 @@ public class PersonalInfoTwoFragment extends Fragment implements UpdateUIOnDAOCo
 
     @Override
     public void performUIInsertAction(DataAccessObject dao, Uri uri) {
-        //Launch main signed in activity
-        Activity activity = getActivity();
-        Intent intent = new Intent(activity, UserHomeActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        activity.finish(); // call this to finish the current activity
+        mListener.replaceFragment(this,null);
 
 
     }
@@ -155,47 +173,15 @@ public class PersonalInfoTwoFragment extends Fragment implements UpdateUIOnDAOCo
         //No deletion actions for fragment
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.pit_nextBtn:{
-                setUserBundle();
-                //Add user info to content values and save to database.
-                try {
-                    UserInfoTableDAO.getInstance().insertUserRegistered(getActivity(), userInfoBundle);
-                } catch (CallingClassNotCompatable callingClassNotCompatable) {
-                    callingClassNotCompatable.printStackTrace();
-                }
-            }
-                break;
-            case R.id.pit_prev:{
-                //Save all user fields
-                setUserBundle();
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                //Clear backstack to named fragment
-                fm.popBackStack("personalInfoOneFragment",fm.POP_BACK_STACK_INCLUSIVE);
-            }
-                break;
-        }
-    }
+
     private void setUserBundle(){
+        if (this.isVisible()) {
         userInfoBundle.putBoolean(DBContract.UserInfo.PREGNANT, pitPregnant.isChecked());
         userInfoBundle.putBoolean(DBContract.UserInfo.PHYSICAL_HEALTH_ISSUES, pitPhysicalHealth.isChecked());
         userInfoBundle.putBoolean(DBContract.UserInfo.MENTAL_HEALTH_ISSUES, pitMentalHealth.isChecked());
         userInfoBundle.putBoolean(DBContract.UserInfo.ADDICTION_STATUS, pitAddiction.isChecked());
     }
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
+
+
 }

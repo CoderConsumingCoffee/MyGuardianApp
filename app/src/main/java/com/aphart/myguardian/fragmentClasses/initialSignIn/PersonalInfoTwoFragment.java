@@ -32,7 +32,7 @@ public class PersonalInfoTwoFragment extends Fragment implements UpdateUIOnDAOCo
     private CheckBox pitPhysicalHealth;
     private CheckBox pitPregnant;
     private CheckBox pitAddiction;
-
+    private static boolean isReloaded;
 
     public PersonalInfoTwoFragment() {
         // Required empty public constructor
@@ -46,9 +46,10 @@ public class PersonalInfoTwoFragment extends Fragment implements UpdateUIOnDAOCo
      * @return A new instance of fragment PersonalInfoTwoFragment.
      */
 
-    public static PersonalInfoTwoFragment newInstance(Bundle userInfoBundle) {
+    public static PersonalInfoTwoFragment newInstance(Bundle userInfoBundle, boolean reloaded) {
         PersonalInfoTwoFragment fragment = new PersonalInfoTwoFragment();
         fragment.userInfoBundle = userInfoBundle;
+        isReloaded = reloaded;
         return fragment;
     }
 
@@ -60,6 +61,7 @@ public class PersonalInfoTwoFragment extends Fragment implements UpdateUIOnDAOCo
 
 
         }
+
     }
 
     @Override
@@ -141,7 +143,14 @@ public class PersonalInfoTwoFragment extends Fragment implements UpdateUIOnDAOCo
         setUserBundle();
         //Save user bundle
         outState.putBundle("INITIAL_SIGN_IN", userInfoBundle);
+        mListener.primaryFragmentDeath(this, userInfoBundle);
 
+    }
+    @Override
+    public void onPause(){
+        super.onPause();
+        setUserBundle();
+        mListener.primaryFragmentDeath(this, userInfoBundle);
     }
     @Override
     public void onDetach() {

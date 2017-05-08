@@ -27,6 +27,7 @@ import myguardianDB.DBContract;
 public class InitialSignInActivity extends AppCompatActivity implements
         OnFragmentInteractionListener {
         private String fragId;
+        private static Bundle userInfoBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +36,71 @@ public class InitialSignInActivity extends AppCompatActivity implements
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        if(savedInstanceState==null) {
-         //   FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        if (savedInstanceState == null) {
+            //   FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
-            ft.replace(R.id.initialSignInActivityFragmentOne, InitialSignInActivityBeginFragment.newInstance(), "initialSignInActivityBeginFragment");
+            ft.replace(R.id.initialSignInActivityFragmentOne, InitialSignInActivityBeginFragment.newInstance(userInfoBundle, false), "iniSignInActivityBeginFragment");
             ft.commit();
-        }
+        } else {
+
+            fragId = savedInstanceState.getString("oldfrag");
+            userInfoBundle = savedInstanceState.getBundle("userInfoBundle");
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            Fragment fragment = fm.findFragmentByTag(fragId);
+//            if (fragment != null) {
+//
+//                switch (fragId) {
+//                    case "iniSignInActivityBeginFragment": {
+//                        InitialSignInActivityBeginFragment frag = (InitialSignInActivityBeginFragment) fm.findFragmentByTag(fragId);
+//                        ft.show(frag);
+//                    }
+//                    break;
+//                    case "contactInfoFragment": {
+//                        ContactInfoFragment frag = (ContactInfoFragment) fm.findFragmentByTag(fragId);
+//                        ft.show(frag);
+//                    }
+//                    break;
+//                    case "personalInfoOneFragment": {
+//                        PersonalInfoOneFragment frag = (PersonalInfoOneFragment) fm.findFragmentByTag(fragId);
+//                        ft.show(frag);
+//                    }
+//                    break;
+//                    case "personalInfoTwoFragment": {
+//                        PersonalInfoTwoFragment frag = (PersonalInfoTwoFragment) fm.findFragmentByTag(fragId);
+//                        ft.show(frag);
+//                    }
+//                    break;
+//
+//
+//                }
+//                ft.commit();
+//            } else {
+
+                switch (fragId) {
+                    case "iniSignInActivityBeginFragment": {
+
+                        ft.replace(R.id.initialSignInActivityFragmentOne, InitialSignInActivityBeginFragment.newInstance(userInfoBundle, true), fragId);
+                    }
+                    break;
+                    case "contactInfoFragment": {
+                        ft.replace(R.id.initialSignInActivityFragmentOne, ContactInfoFragment.newInstance(userInfoBundle, true), fragId);
+                    }
+                    break;
+                    case "personalInfoOneFragment": {
+
+                        ft.replace(R.id.initialSignInActivityFragmentOne, PersonalInfoOneFragment.newInstance(userInfoBundle, true), fragId);
+                    }
+                    break;
+                    case "personalInfoTwoFragment": {
+
+                        ft.replace(R.id.initialSignInActivityFragmentOne, PersonalInfoTwoFragment.newInstance(userInfoBundle, true), fragId);
+                    }
+                    break;
+                }
+                ft.commit();
+//            }
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -49,8 +108,9 @@ public class InitialSignInActivity extends AppCompatActivity implements
 //                        .setAction("Action", null).show();
 //            }
 //        });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        }
     }
 
 
@@ -59,7 +119,7 @@ public class InitialSignInActivity extends AppCompatActivity implements
         if (fragment instanceof InitialSignInActivityBeginFragment) {
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
-            ft.replace(R.id.initialSignInActivityFragmentOne, ContactInfoFragment.newInstance(userBundle), "contactInfoFragment"); //Pass info
+            ft.replace(R.id.initialSignInActivityFragmentOne, ContactInfoFragment.newInstance(userBundle, false), "contactInfoFragment"); //Pass info
             ft.addToBackStack("iniSignInActivityBeginFragment");
             ft.commit();
 
@@ -68,13 +128,13 @@ public class InitialSignInActivity extends AppCompatActivity implements
         } else if (fragment instanceof ContactInfoFragment) {
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
-            ft.replace(R.id.initialSignInActivityFragmentOne, PersonalInfoOneFragment.newInstance(userBundle), "personalInfoOneFragment"); //Pass info
+            ft.replace(R.id.initialSignInActivityFragmentOne, PersonalInfoOneFragment.newInstance(userBundle, false), "personalInfoOneFragment"); //Pass info
             ft.addToBackStack("contactInfoFragment");
             ft.commit();
         } else if (fragment instanceof PersonalInfoOneFragment) {
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
-            ft.replace(R.id.initialSignInActivityFragmentOne, PersonalInfoTwoFragment.newInstance(userBundle),"personalInfoTwoFragment"); //Pass info
+            ft.replace(R.id.initialSignInActivityFragmentOne, PersonalInfoTwoFragment.newInstance(userBundle, false),"personalInfoTwoFragment"); //Pass info
             ft.addToBackStack("personalInfoOneFragment");
             ft.commit();
 
@@ -89,12 +149,14 @@ public class InitialSignInActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void primaryFragmentDeath(Fragment fragment) {
+    public void primaryFragmentDeath(Fragment fragment, Bundle bundle) {
         fragId = fragment.getTag();
+        userInfoBundle = bundle;
 
     }
     @Override
     public void onSaveInstanceState(Bundle onBundle){
         onBundle.putString("oldfrag", fragId);
+        onBundle.putBundle("userInfoBundle", userInfoBundle);
     }
 }

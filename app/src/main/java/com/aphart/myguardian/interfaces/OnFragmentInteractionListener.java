@@ -9,5 +9,5 @@ import android.support.v4.app.Fragment;
 
 public interface OnFragmentInteractionListener {
     void replaceFragment(Fragment fragment, Bundle userBundle);
-    void primaryFragmentDeath(Fragment fragment);
+    void primaryFragmentDeath(Fragment fragment, Bundle bundle);
 }

@@ -40,7 +40,7 @@ public class PersonalInfoOneFragment extends Fragment {
     private Spinner pioNumberOfChildren;
     private Spinner pioJobStatus;
     private Spinner pioeducationLevel;
-
+    private static boolean isReloaded;
     private OnFragmentInteractionListener mListener;
 
     public PersonalInfoOneFragment() {
@@ -55,9 +55,10 @@ public class PersonalInfoOneFragment extends Fragment {
      * @return A new instance of fragment PersonalInfoOneFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static PersonalInfoOneFragment newInstance(Bundle userInfoBundle) {
+    public static PersonalInfoOneFragment newInstance(Bundle userInfoBundle, boolean reloaded) {
         PersonalInfoOneFragment fragment = new PersonalInfoOneFragment();
         fragment.userInfoBundle = userInfoBundle;
+        isReloaded = reloaded;
         return fragment;
     }
 
@@ -203,7 +204,7 @@ public class PersonalInfoOneFragment extends Fragment {
         if (userInfoBundle.getInt(DBContract.UserInfo.NUMBER_OF_CHILDREN)>=0){
         String[] childArray = getResources().getStringArray(R.array.number_of_children);
         for (int i = 0; i < childArray.length; i++) {
-            if (childArray[i].equalsIgnoreCase(userInfoBundle.getString(DBContract.UserInfo.NUMBER_OF_CHILDREN))){
+            if (childArray[i].equalsIgnoreCase(""+userInfoBundle.getInt(DBContract.UserInfo.NUMBER_OF_CHILDREN))){
                 pioNumberOfChildren.setSelection(i);
             }
         }
@@ -222,6 +223,12 @@ public class PersonalInfoOneFragment extends Fragment {
                     + " must implement OnFragmentInteractionListener");
         }
     }
+    @Override
+    public void onPause(){
+        super.onPause();
+        setUserBundle();
+        mListener.primaryFragmentDeath(this, userInfoBundle);
+    }
 
     @Override
     public void onDetach() {
@@ -236,6 +243,7 @@ public class PersonalInfoOneFragment extends Fragment {
         setUserBundle();
         //Pass user bundle to saved state
         outState.putBundle("INITIAL_SIGN_IN", userInfoBundle);
+        mListener.primaryFragmentDeath(this, userInfoBundle);
     }
 
 

@@ -38,7 +38,7 @@ public class InitialSignInActivityBeginFragment extends Fragment //implements Vi
     private Cursor cursor = null;
     private static String genderId = "";
     private static Bundle userInfoBundle;
-
+    private static boolean isReloaded;
 
     private com.aphart.myguardian.interfaces.OnFragmentInteractionListener mListener;
 
@@ -54,9 +54,12 @@ public class InitialSignInActivityBeginFragment extends Fragment //implements Vi
      * @return A new instance of fragment ContactInfoFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static InitialSignInActivityBeginFragment newInstance() {
+    public static InitialSignInActivityBeginFragment newInstance(Bundle userBundle, boolean reloaded) {
         InitialSignInActivityBeginFragment fragment = new InitialSignInActivityBeginFragment();
+        userInfoBundle = userBundle;
+        isReloaded = reloaded;
         return fragment;
+
     }
 
 
@@ -64,13 +67,14 @@ public class InitialSignInActivityBeginFragment extends Fragment //implements Vi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(savedInstanceState != null){
+        if(savedInstanceState != null || userInfoBundle != null){
             if(userInfoBundle == null) {
                 userInfoBundle = savedInstanceState.getBundle("INITIAL_SIGN_IN");
             }
             genderId = userInfoBundle.getString(DBContract.UserInfo.GENDER);
 
         }
+
 
     }
 
@@ -142,6 +146,15 @@ public class InitialSignInActivityBeginFragment extends Fragment //implements Vi
         }
 
     }
+     @Override
+     public void onPause(){
+         super.onPause();
+         if (userInfoBundle == null){
+             userInfoBundle = new Bundle();
+         }
+         userInfoBundle.putString(DBContract.UserInfo.GENDER, genderId);
+         mListener.primaryFragmentDeath(this, userInfoBundle);
+     }
 
     @Override
     public void onDetach() {
@@ -152,11 +165,9 @@ public class InitialSignInActivityBeginFragment extends Fragment //implements Vi
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-    if (userInfoBundle == null){
-        userInfoBundle = new Bundle();
-    }
-        userInfoBundle.putString(DBContract.UserInfo.GENDER, genderId);
+
         outState.putBundle("INITIAL_SIGN_IN", userInfoBundle);
+
     }
 
 

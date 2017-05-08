@@ -36,6 +36,7 @@ public class ContactInfoFragment extends Fragment{
     private EditText emailAddress;
     private Spinner preferedContact;
     private OnFragmentInteractionListener mListener;
+    private static boolean isReloaded;
 
     public ContactInfoFragment() {
 
@@ -49,9 +50,10 @@ public class ContactInfoFragment extends Fragment{
      * @return A new instance of fragment ContactInfoFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ContactInfoFragment newInstance(Bundle userInfoBundle) {
+    public static ContactInfoFragment newInstance(Bundle userInfoBundle, boolean reloaded) {
         ContactInfoFragment fragment = new ContactInfoFragment();
         fragment.userInfoBundle = userInfoBundle;
+        isReloaded = reloaded;
         return fragment;
     }
 
@@ -64,6 +66,8 @@ public class ContactInfoFragment extends Fragment{
             userInfoBundle = savedInstanceState.getBundle("INITIAL_SIGN_IN");
 
         }
+
+
     }
 
     @Override
@@ -150,6 +154,13 @@ public class ContactInfoFragment extends Fragment{
 
     }
     @Override
+    public void onPause(){
+        super.onPause();
+        setUserBundle();
+        mListener.primaryFragmentDeath(this, userInfoBundle);
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
@@ -161,7 +172,6 @@ public class ContactInfoFragment extends Fragment{
                     + " must implement OnFragmentInteractionListener");
         }
     }
-
     @Override
     public void onDetach() {
         super.onDetach();
@@ -173,6 +183,8 @@ public class ContactInfoFragment extends Fragment{
         super.onSaveInstanceState(outState);
         setUserBundle();
         outState.putBundle("INITIAL_SIGN_IN", userInfoBundle);
+        mListener.primaryFragmentDeath(this, userInfoBundle);
+
     }
 
 

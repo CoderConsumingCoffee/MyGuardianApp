@@ -49,34 +49,7 @@ public class InitialSignInActivity extends AppCompatActivity implements
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             Fragment fragment = fm.findFragmentByTag(fragId);
-//            if (fragment != null) {
-//
-//                switch (fragId) {
-//                    case "iniSignInActivityBeginFragment": {
-//                        InitialSignInActivityBeginFragment frag = (InitialSignInActivityBeginFragment) fm.findFragmentByTag(fragId);
-//                        ft.show(frag);
-//                    }
-//                    break;
-//                    case "contactInfoFragment": {
-//                        ContactInfoFragment frag = (ContactInfoFragment) fm.findFragmentByTag(fragId);
-//                        ft.show(frag);
-//                    }
-//                    break;
-//                    case "personalInfoOneFragment": {
-//                        PersonalInfoOneFragment frag = (PersonalInfoOneFragment) fm.findFragmentByTag(fragId);
-//                        ft.show(frag);
-//                    }
-//                    break;
-//                    case "personalInfoTwoFragment": {
-//                        PersonalInfoTwoFragment frag = (PersonalInfoTwoFragment) fm.findFragmentByTag(fragId);
-//                        ft.show(frag);
-//                    }
-//                    break;
-//
-//
-//                }
-//                ft.commit();
-//            } else {
+
 
                 switch (fragId) {
                     case "iniSignInActivityBeginFragment": {
@@ -100,14 +73,7 @@ public class InitialSignInActivity extends AppCompatActivity implements
                     break;
                 }
                 ft.commit();
-//            }
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         }
